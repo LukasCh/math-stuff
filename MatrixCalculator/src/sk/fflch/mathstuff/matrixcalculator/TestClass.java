@@ -4,7 +4,7 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello Math! No go and die you piece of shit!");
+		System.out.println("Hello Math! Now go and die you piece of shit!");
 	}
 
 }
