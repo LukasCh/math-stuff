@@ -6,7 +6,7 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello Math! Now go and die you piece of shit!");
+		System.out.println("OK*sigh* I'll do the math for you");
 		int[][] matrixA = { { 1, 2 }, { 3, 4 }, { 2, 1 } };
 		int[][] matrixB = { { 2, 4 }, { -5, 6 }, { -2, 0 } };
         System.out.println("adding");
