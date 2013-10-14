@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,10 +15,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import sk.fflch.mathstuff.matrixcalculator.UltimateMatrixCalculator;
+
 public class UltimateCalculatorGUI extends JFrame {
 	private JTextArea firstTextarea;
 	private JTextArea secondTextarea;
 	private JTextArea resultTextarea;
+	
+	private static String firstTextareaText = "1 2 3\n4 5 6\n7 8 9";
+	private static String secondTextareaText = "1 2 3\n4 5 6\n7 8 9";
 	
 	public UltimateCalculatorGUI() {
 		initWindow();
@@ -38,12 +46,12 @@ public class UltimateCalculatorGUI extends JFrame {
 	private JPanel getContent() {
 		JPanel panel = new JPanel();
 		panel.add(new JLabel("Textarea #1"));
-		firstTextarea = new JTextArea();
+		firstTextarea = new JTextArea(firstTextareaText);
 		firstTextarea.setPreferredSize(new Dimension(450, 200));
 		firstTextarea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		panel.add(firstTextarea);
 		panel.add(new JLabel("Textarea #2"));
-		secondTextarea = new JTextArea();
+		secondTextarea = new JTextArea(secondTextareaText);
 		secondTextarea.setPreferredSize(new Dimension(450, 200));
 		secondTextarea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		panel.add(secondTextarea);
@@ -52,7 +60,10 @@ public class UltimateCalculatorGUI extends JFrame {
 		addMatricesButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Add Matrices Pressed");
+				int[][] matrixA = textToMatrix(firstTextarea.getText());
+				int[][] matrixB = textToMatrix(secondTextarea.getText());
+				int[][] result = UltimateMatrixCalculator.addMatrices(matrixA, matrixB);
+				resultTextarea.setText(getMatrixDisplayString(result));
 				
 			}
 		});
@@ -87,6 +98,39 @@ public class UltimateCalculatorGUI extends JFrame {
 		panel.add(resultTextarea);
 		
 		return panel;
+	}
+	
+	public static int[][] textToMatrix(String text){
+		int[][] matrix = null;
+		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+		
+		Scanner textScanner = new Scanner(text);
+		int rowNumber = 0;
+		
+		while(textScanner.hasNextLine()) {		
+			Scanner rowScanner = new Scanner(textScanner.nextLine()).useDelimiter(" ");
+			result.add(new ArrayList<Integer>());
+			while(rowScanner.hasNextInt()) {
+				result.get(rowNumber).add(rowScanner.nextInt());
+			}			
+			rowScanner.close();
+			rowNumber++;
+		}
+		textScanner.close();
+		
+		matrix = new int[result.size()][result.get(0).size()];
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				matrix[i][j] = result.get(i).get(j);
+			}			
+		}
+		result.toArray();
+		
+		return matrix;
+	}
+	
+	public static String getMatrixDisplayString(int[][] matrix) {
+		return Arrays.deepToString(matrix).replaceAll("],", "],\r\n").replace(" [", "").replace("]", "").replace("[", "").replace(",", "").replace(" ","\t");
 	}
 }
 
